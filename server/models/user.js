@@ -7,8 +7,22 @@ module.exports = (sequelize, DataTypes) => {
 		 * This method is not a part of Sequelize lifecycle.
 		 * The `models/index` file will call this method automatically.
 		 */
-		static associate(models) {
+		static associate({ Role, RefreshToken }) {
 			// define association here
+			this.belongsTo(Role, {
+				foreignKey: 'roleId',
+				as: 'role',
+				onDelete: 'CASCADE',
+				hooks: true,
+				onUpdate: 'CASCADE',
+			});
+			
+			this.hasOne(RefreshToken, {
+				foreignKey: 'userId',
+				onDelete: 'CASCADE',
+				onUpdate: 'CASCADE',
+				hooks: true,
+			});
 		}
 	}
 	User.init(
@@ -16,6 +30,15 @@ module.exports = (sequelize, DataTypes) => {
 			nopeg: {
 				type: DataTypes.STRING,
 				allowNull: false,
+				unique: true,
+				validate: {
+					notNull: {
+						msg: 'No Pegawai is required',
+					},
+					notEmpty: {
+						msg: 'No pegawai is required',
+					},
+				},
 			},
 			name: {
 				type: DataTypes.STRING,
@@ -32,6 +55,7 @@ module.exports = (sequelize, DataTypes) => {
 			email: {
 				type: DataTypes.STRING,
 				allowNull: false,
+				unique: true,
 				validate: {
 					isEmail: true,
 					notNull: {
