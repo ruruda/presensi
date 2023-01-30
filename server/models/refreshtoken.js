@@ -11,6 +11,15 @@ module.exports = (sequelize, DataTypes) => {
 			// define association here
 			this.belongsTo(User, { foreignKey: 'userId' });
 		}
+
+		toJSON() {
+			return {
+				...this.get(),
+				id: undefined,
+				createdAt: undefined,
+				updatedAt: undefined,
+			};
+		}
 	}
 	RefreshToken.init(
 		{
