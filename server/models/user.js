@@ -29,11 +29,25 @@ module.exports = (sequelize, DataTypes) => {
 				onDelete: 'CASCADE',
 				onUpdate: 'CASCADE',
 				hooks: true,
-			})
+			});
+		}
+
+		toJSON() {
+			return {
+				...this.get(),
+				id: undefined,
+				password: undefined,
+				createdAt: undefined,
+				updatedAt: undefined,
+			};
 		}
 	}
 	User.init(
 		{
+			uuid: {
+				type: DataTypes.UUID,
+				defaultValue: DataTypes.UUIDV4,
+			},
 			nopeg: {
 				type: DataTypes.STRING,
 				allowNull: false,
@@ -100,6 +114,7 @@ module.exports = (sequelize, DataTypes) => {
 			roleId: {
 				type: DataTypes.INTEGER,
 				allowNull: false,
+				defaultValue: 2,
 				validate: {
 					notNull: {
 						msg: 'Role is required',
