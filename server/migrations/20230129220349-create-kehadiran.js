@@ -1,16 +1,16 @@
 'use strict';
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-	async up(queryInterface, Sequelize) {
-		await queryInterface.createTable('Kehadiran', {
+	async up(queryInterface, DataTypes) {
+		await queryInterface.createTable('kehadiran', {
 			id: {
 				allowNull: false,
 				autoIncrement: true,
 				primaryKey: true,
-				type: Sequelize.INTEGER,
+				type: DataTypes.INTEGER,
 			},
 			userId: {
-				type: Sequelize.INTEGER,
+				type: DataTypes.INTEGER,
 				references: {
 					model: 'Users',
 					key: 'id',
@@ -19,19 +19,19 @@ module.exports = {
 				onUpdate: 'CASCADE',
 			},
 			hari_1: {
-				type: Sequelize.ENUM('Hadir', 'Terlambat', 'Absen'),
+				type: DataTypes.ENUM('Hadir', 'Terlambat', 'Absen'),
 			},
 			createdAt: {
 				allowNull: false,
-				type: Sequelize.DATE,
+				type: DataTypes.DATE,
 			},
 			updatedAt: {
 				allowNull: false,
-				type: Sequelize.DATE,
+				type: DataTypes.DATE,
 			},
 		});
 	},
-	async down(queryInterface, Sequelize) {
-		await queryInterface.dropTable('Kehadiran');
+	async down(queryInterface, DataTypes) {
+		await queryInterface.dropTable('kehadiran');
 	},
 };

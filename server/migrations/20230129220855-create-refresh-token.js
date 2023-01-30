@@ -1,16 +1,16 @@
 'use strict';
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-	async up(queryInterface, Sequelize) {
-		await queryInterface.createTable('RefreshTokens', {
+	async up(queryInterface, DataTypes) {
+		await queryInterface.createTable('refreshToken', {
 			id: {
 				allowNull: false,
 				autoIncrement: true,
 				primaryKey: true,
-				type: Sequelize.INTEGER,
+				type: DataTypes.INTEGER,
 			},
 			userId: {
-				type: Sequelize.INTEGER,
+				type: DataTypes.INTEGER,
 				references: {
 					model: 'Users',
 					key: 'id',
@@ -19,19 +19,19 @@ module.exports = {
 				onUpdate: 'CASCADE',
 			},
 			token: {
-				type: Sequelize.STRING,
+				type: DataTypes.STRING,
 			},
 			createdAt: {
 				allowNull: false,
-				type: Sequelize.DATE,
+				type: DataTypes.DATE,
 			},
 			updatedAt: {
 				allowNull: false,
-				type: Sequelize.DATE,
+				type: DataTypes.DATE,
 			},
 		});
 	},
-	async down(queryInterface, Sequelize) {
-		await queryInterface.dropTable('RefreshTokens');
+	async down(queryInterface, DataTypes) {
+		await queryInterface.dropTable('refreshToken');
 	},
 };
