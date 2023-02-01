@@ -19,12 +19,7 @@ const CreateUser = async ({ nopeg, name, email, password, noHp, roleId }) => {
 };
 
 const CreateKehadiran = async ({ userId }) => {
-	return await Kehadiran.create(
-		{
-			userId,
-		},
-		{ validate: true }
-	);
+	return await Kehadiran.create({ userId }, { validate: true });
 };
 
 module.exports = {
