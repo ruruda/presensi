@@ -3,13 +3,11 @@ const registrationService = require('../services/resgistrations.service');
 
 const create = async (req, res) => {
 	const { nopeg, name, email, password, noHp, roleId } = req.body;
-	const hashPassword = await bcrypt.hash(password, 10);
+	let hashPassword = null;
+	if (password) {
+		hashPassword = await bcrypt.hash(password, 10);
+	}
 	try {
-		if (!nopeg || !name || !email || !password || !noHp) {
-			return res.status(400).json({
-				message: 'All input is required',
-			});
-		}
 		const userExists = await registrationService.FindUserEmail(email);
 		if (userExists) {
 			return res.status(409).json({
@@ -37,6 +35,29 @@ const create = async (req, res) => {
 			data,
 		});
 	} catch (err) {
+		if (err.name === 'SequelizeValidationError')
+			return res.status(400).json({
+				message: err.errors.map((err) => err.message),
+			});
+		return res.status(500).json({
+			message: 'Something went wrong',
+			serverMessage: err,
+		});
+	}
+};
+
+const login = async (req, res, next) => {
+	const { email, password } = req.body;
+	if (!email || !password) {
+		return res.status(400).json({ message: 'All input is required' });
+	}
+	try {
+		const user = await registrationService.FindUserEmail(email);
+		const isValidPassword = await bcrypt.compare(password, user.password);
+		if (!user || !isValidPassword)
+			return res.status(401).json({ message: 'Incorrect email or password' });
+		return res.status(200).json({ message: 'Login success' });
+	} catch (err) {
 		return res.status(500).json({
 			message: 'Something went wrong',
 			serverMessage: err,
@@ -46,4 +67,5 @@ const create = async (req, res) => {
 
 module.exports = {
 	create,
+	login,
 };
