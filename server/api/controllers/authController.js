@@ -24,7 +24,6 @@ const create = async (req, res) => {
 			noHp,
 			roleId,
 		});
-		await registrationService.CreateKehadiran({ userId: user.id });
 		const role = await user.getRole();
 		const data = {
 			nopeg,

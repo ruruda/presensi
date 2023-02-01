@@ -130,6 +130,13 @@ module.exports = (sequelize, DataTypes) => {
 		{
 			sequelize,
 			modelName: 'User',
+			hooks: {
+				afterCreate: async (user) => {
+					await sequelize.models.Kehadiran.create({
+						userId: user.id,
+					});
+				},
+			},
 		}
 	);
 	return User;
