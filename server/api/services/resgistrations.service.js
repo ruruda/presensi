@@ -9,14 +9,19 @@ const FindUserEmail = async (email) => {
 };
 
 const CreateUser = async ({ nopeg, name, email, password, noHp, roleId }) => {
-	return await User.create({
-		nopeg,
-		name,
-		email,
-		password,
-		noHp,
-		roleId,
-	});
+	return await User.create(
+		{
+			nopeg,
+			name,
+			email,
+			password,
+			noHp,
+			roleId,
+		},
+		{
+			validate: true,
+		}
+	);
 };
 
 module.exports = {
