@@ -1,5 +1,7 @@
 const bcrypt = require('bcrypt');
-const registrationService = require('../services/resgistrations.service');
+const registrationService = require('../services/registrations.service');
+const token = require('../middleware/token');
+const helpers = require('../helpers/jwtVerify');
 
 const create = async (req, res) => {
 	const { nopeg, name, email, password, noHp, roleId } = req.body;
@@ -22,6 +24,7 @@ const create = async (req, res) => {
 			noHp,
 			roleId,
 		});
+		await registrationService.CreateKehadiran({ userId: user.id });
 		const role = await user.getRole();
 		const data = {
 			nopeg,
@@ -56,7 +59,15 @@ const login = async (req, res, next) => {
 		const isValidPassword = await bcrypt.compare(password, user.password);
 		if (!user || !isValidPassword)
 			return res.status(401).json({ message: 'Incorrect email or password' });
-		return res.status(200).json({ message: 'Login success' });
+		const { accessToken, refreshToken } = await token.generateTokens(user);
+		const role = await user.getRole();
+		const userToken = {
+			name: user.name,
+			role: role.roles,
+			accessToken,
+			refreshToken,
+		};
+		return res.status(200).json({ message: 'Login success', data: userToken });
 	} catch (err) {
 		return res.status(500).json({
 			message: 'Something went wrong',
@@ -65,7 +76,42 @@ const login = async (req, res, next) => {
 	}
 };
 
+const getMe = async (req, res, next) => {
+	// const token = req.headers.authorization.split(' ')[1];
+	// try {
+	// 	const decoded = helpers.verifyJwtAccess(token);
+	// 	res.status(200).json(decoded);
+	// } catch (error) {
+	// 	return res.status(500).json(err);
+	// }
+	const { user } = req;
+	const me = await registrationService.FindUserEmail(user.email);
+	const role = await me.getRole();
+	const { roleId, ...otherProps } = user;
+	const data = { ...otherProps, role: role.roles };
+	return res.status(200).json({
+		success: true,
+		data,
+	});
+};
+
+const getRefresh = async (req, res) => {
+	try {
+		const { refreshTokens } = req.body;
+		if (!refreshTokens) return res.sendStatus(401);
+		const decoded = helpers.verifyJwtRefresh(refreshTokens);
+		const user = await registrationService.FindUserEmail(decoded.email);
+		const { accessToken, refreshToken } = await token.generateTokens(user);
+		return res.status(200).json({ accessToken: accessToken, refreshToken: refreshToken });
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({ success: false, error: error });
+	}
+};
+
 module.exports = {
 	create,
 	login,
+	getMe,
+	getRefresh,
 };
