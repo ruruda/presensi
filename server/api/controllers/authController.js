@@ -55,8 +55,9 @@ const login = async (req, res, next) => {
 	}
 	try {
 		const user = await registrationService.FindUserEmail(email);
+		if (!user) return res.status(401).json({ message: 'Incorrect email or password' });
 		const isValidPassword = await bcrypt.compare(password, user.password);
-		if (!user || !isValidPassword)
+		if (!isValidPassword)
 			return res.status(401).json({ message: 'Incorrect email or password' });
 		const { accessToken, refreshToken } = await token.generateTokens(user);
 		const role = await user.getRole();
