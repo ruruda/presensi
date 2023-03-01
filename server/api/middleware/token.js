@@ -5,9 +5,10 @@ const generateTokens = async (user) => {
 	try {
 		const payload = {
 			id: user.uuid,
-      nopeg: user.nopeg,
+			nopeg: user.nopeg,
 			name: user.name,
 			email: user.email,
+			noHp: user.noHp,
 			roleId: user.roleId,
 		};
 		const accessToken = helpers.jwtSignAccess(payload);
