@@ -7,13 +7,17 @@
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"start": "nodemon index.js",
 		"migrate:up": "npx sequelize-cli db:migrate",
-		"migrate:undo": "npx sequelize-cli db:migrate:undo"
+		"migrate:undo": "npx sequelize-cli db:migrate:undo",
+		"migrate:undo:all": "npx sequelize-cli db:migrate:undo:all",
+		"seeders:all": "npx sequelize-cli db:seed:all"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
 		"bcrypt": "^5.1.0",
+		"cors": "^2.8.5",
+		"crypto-js": "^4.1.1",
 		"dotenv": "^16.0.3",
 		"express": "^4.18.2",
 		"jsonwebtoken": "^9.0.0",
