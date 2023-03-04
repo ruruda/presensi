@@ -2,8 +2,7 @@ const { RefreshToken } = require('../../models');
 const helpers = require('../helpers/jwtVerify');
 
 const generateTokens = async (user) => {
-	let roles;
-	user.roleId === 1 ? (roles = 'admin') : (roles = 'user');
+	const role = await user.getRole();
 	try {
 		const payload = {
 			id: user.uuid,
@@ -11,7 +10,7 @@ const generateTokens = async (user) => {
 			name: user.name,
 			email: user.email,
 			noHp: user.noHp,
-			role: roles,
+			role: role.roles,
 		};
 		const accessToken = helpers.jwtSignAccess(payload);
 		const refreshToken = helpers.jwtSignRefresh(payload);
