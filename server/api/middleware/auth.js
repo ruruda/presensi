@@ -19,7 +19,7 @@ const verifyToken = (req, res, next) => {
 
 const verifyUser = (req, res, next) => {
 	verifyToken(req, res, () => {
-		if (req.user.roleId === 2 || req.user.roleId === 1) {
+		if (req.user.role === 'user' || req.user.role === 'admin') {
 			next();
 		} else {
 			return res.status(403).json({ message: 'Not authorized' });
@@ -29,7 +29,7 @@ const verifyUser = (req, res, next) => {
 
 const verifyAdmin = (req, res, next) => {
 	verifyToken(req, res, () => {
-		if (req.user.roleId === 1) {
+		if (req.user.role === 'admin') {
 			next();
 		} else {
 			return res.status(403).json({ message: 'Not authorized' });
