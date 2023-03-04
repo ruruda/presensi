@@ -21,6 +21,18 @@ module.exports = {
 			hari_1: {
 				type: DataTypes.ENUM('Hadir', 'Terlambat', 'Absen'),
 			},
+			hari_2: {
+				type: DataTypes.ENUM('Hadir', 'Terlambat', 'Absen'),
+			},
+			hari_3: {
+				type: DataTypes.ENUM('Hadir', 'Terlambat', 'Absen'),
+			},
+			hari_4: {
+				type: DataTypes.ENUM('Hadir', 'Terlambat', 'Absen'),
+			},
+			hari_5: {
+				type: DataTypes.ENUM('Hadir', 'Terlambat', 'Absen'),
+			},
 			createdAt: {
 				allowNull: false,
 				type: DataTypes.DATE,
