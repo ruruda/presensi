@@ -9,7 +9,16 @@ module.exports = (sequelize, DataTypes) => {
 		 */
 		static associate({ User }) {
 			// define association here
-			this.belongsTo(User, { foreignKey: 'userId' });
+			this.belongsTo(User, { as: 'user', foreignKey: 'userId' });
+		}
+		toJSON() {
+			return {
+				...this.get(),
+				id: undefined,
+				userId: undefined,
+				createdAt: undefined,
+				updatedAt: undefined,
+			};
 		}
 	}
 	Kehadiran.init(
@@ -19,6 +28,10 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: false,
 			},
 			hari_1: DataTypes.ENUM('Hadir', 'Terlambat', 'Absen'),
+			hari_2: DataTypes.ENUM('Hadir', 'Terlambat', 'Absen'),
+			hari_3: DataTypes.ENUM('Hadir', 'Terlambat', 'Absen'),
+			hari_4: DataTypes.ENUM('Hadir', 'Terlambat', 'Absen'),
+			hari_5: DataTypes.ENUM('Hadir', 'Terlambat', 'Absen'),
 		},
 		{
 			sequelize,
