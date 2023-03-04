@@ -4,17 +4,15 @@ const token = require('../middleware/token');
 const helpers = require('../helpers/jwtVerify');
 
 const create = async (req, res) => {
-	const { nopeg, name, email, password, noHp, roleId } = req.body;
+	const { nopeg, name, email, password, confirmPassword, noHp, roleId } = req.body;
+	if (password !== confirmPassword)
+		return res.status(400).json({ message: `Password and Confirm Password don't match` });
 	let hashPassword = null;
-	if (password) {
-		hashPassword = await bcrypt.hash(password, 10);
-	}
+	if (password) hashPassword = await bcrypt.hash(password, 10);
 	try {
 		const userExists = await registrationService.FindUserEmail(email);
 		if (userExists) {
-			return res.status(409).json({
-				message: 'Email already exists',
-			});
+			return res.status(409).json({ message: 'Email already exists' });
 		}
 		const user = await registrationService.CreateUser({
 			nopeg,
@@ -43,7 +41,7 @@ const create = async (req, res) => {
 			});
 		return res.status(500).json({
 			message: 'Something went wrong',
-			serverMessage: err,
+			serverMessage: err.message,
 		});
 	}
 };
@@ -62,6 +60,7 @@ const login = async (req, res, next) => {
 		const { accessToken, refreshToken } = await token.generateTokens(user);
 		const role = await user.getRole();
 		const userToken = {
+			uuid: user.uuid,
 			name: user.name,
 			role: role.roles,
 			accessToken,
@@ -71,7 +70,7 @@ const login = async (req, res, next) => {
 	} catch (err) {
 		return res.status(500).json({
 			message: 'Something went wrong',
-			serverMessage: err,
+			serverMessage: err.message,
 		});
 	}
 };
@@ -84,14 +83,9 @@ const getMe = async (req, res, next) => {
 	// } catch (error) {
 	// 	return res.status(500).json(err);
 	// }
-	const { user } = req;
-	const me = await registrationService.FindUserEmail(user.email);
-	const role = await me.getRole();
-	const { roleId, ...otherProps } = user;
-	const data = { ...otherProps, role: role.roles };
 	return res.status(200).json({
 		success: true,
-		data,
+		data: req.user,
 	});
 };
 
@@ -103,9 +97,12 @@ const getRefresh = async (req, res) => {
 		const user = await registrationService.FindUserEmail(decoded.email);
 		const { accessToken, refreshToken } = await token.generateTokens(user);
 		return res.status(200).json({ accessToken: accessToken, refreshToken: refreshToken });
-	} catch (error) {
-		console.log(error);
-		return res.status(500).json({ success: false, error: error });
+	} catch (err) {
+		// console.log(err);
+		return res.status(500).json({
+			message: 'Something went wrong',
+			serverMessage: err.message,
+		});
 	}
 };
 
