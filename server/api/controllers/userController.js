@@ -16,7 +16,7 @@ const getUser = async (req, res, next) => {
 };
 
 const updateUser = async (req, res, next) => {
-	const { nopeg, name, email, password, confirmPassword, noHp, roleId } = req.body;
+	const { nopeg, name, email, password, confirmPassword, noHp } = req.body;
 	const { uuid } = req.params;
 
 	try {
@@ -31,7 +31,7 @@ const updateUser = async (req, res, next) => {
 			hashPassword = await bcrypt.hash(password, 10);
 		}
 		if (password !== confirmPassword)
-			return res.status(400).json({ message: `Password and Confirm Password don't match` });
+			return res.status(400).json({ message: "Password and Confirm Password don't match" });
 		await userService.UpdateUser({
 			uuid: user.uuid,
 			email,

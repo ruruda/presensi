@@ -13,7 +13,7 @@ const GetUserById = async (uuid) => {
 	return await User.findOne({ where: { uuid: uuid } });
 };
 
-const UpdateUser = async ({ uuid, nopeg, name, email, password, noHp }) => {
+const UpdateUser = async ({ uuid, nopeg, name, email, password, noHp, roleId }) => {
 	return await User.update(
 		{
 			nopeg,
@@ -21,6 +21,7 @@ const UpdateUser = async ({ uuid, nopeg, name, email, password, noHp }) => {
 			email,
 			password,
 			noHp,
+			roleId
 		},
 		{ where: { uuid: uuid }, validate: true }
 	);

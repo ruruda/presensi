@@ -5,7 +5,7 @@ const generateTokens = async (user) => {
 	const role = await user.getRole();
 	try {
 		const payload = {
-			id: user.uuid,
+			uuid: user.uuid,
 			nopeg: user.nopeg,
 			name: user.name,
 			email: user.email,
