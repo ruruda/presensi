@@ -85,11 +85,11 @@ const deleteUser = async (req, res, next) => {
 const adminUpdateUser = async (req, res, next) => {
 	const { nopeg, name, email, password, confirmPassword, noHp, roleId } = req.body;
 	const { uuid } = req.params;
+	let hashPassword;
 
 	try {
 		const user = await userService.GetUserById(uuid);
 		if (!user) return res.status(404).json({ message: 'User not found' });
-		let hashPassword;
 		if (password === '' || password === null) {
 			hashPassword = user.password;
 		} else {

@@ -4,8 +4,7 @@ const kehadiranService = require('../services/kehadiran.service');
 const cryptojs = require('crypto-js');
 
 const getDate = () => {
-	const date = new Date();
-	return date.getDate();
+	return new Date().getDate().toString();
 };
 
 const getTime = () => {
@@ -14,7 +13,7 @@ const getTime = () => {
 
 const generateCode = (req, res, next) => {
 	const date = getDate();
-	const fieldName = `hari_${date}`;
+	const fieldName = `hari_${date.padStart(2, '0')}`;
 	const key = process.env.CRYPTO_KEY;
 	const encrypt = cryptojs.AES.encrypt(JSON.stringify(fieldName), key).toString();
 	return res.status(200).json({ data: encrypt });
@@ -29,7 +28,7 @@ const updateKehadiran = async (req, res, next) => {
 		const decrypt = JSON.parse(bytes.toString(cryptojs.enc.Utf8));
 		const time = getTime();
 
-		time > '09:00:00' ? (statusHadir = 'Terlambat') : (statusHadir = 'Hadir');
+		time > '09:00:00' ? (statusHadir = 'TL') : (statusHadir = 'H');
 		const existingPresensi = await Kehadiran.findOne({
 			where: { userId: user.id },
 		});
@@ -37,10 +36,7 @@ const updateKehadiran = async (req, res, next) => {
 		if (existingPresensi && existingPresensi[decrypt] !== null)
 			return res.status(400).json({ message: 'Anda sudah melakukan presensi' });
 
-		await Kehadiran.update(
-			{ [decrypt]: statusHadir },
-			{ where: { userId: user.id } }
-		);
+		await Kehadiran.update({ [decrypt]: statusHadir }, { where: { userId: user.id } });
 		return res.status(200).json({ message: 'Berhasil melakukan presensi' });
 	} catch (err) {
 		if (err.message === 'Unexpected end of JSON input')
