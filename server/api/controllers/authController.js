@@ -98,7 +98,6 @@ const getRefresh = async (req, res) => {
 		const { accessToken, refreshToken } = await token.generateTokens(user);
 		return res.status(200).json({ accessToken: accessToken, refreshToken: refreshToken });
 	} catch (err) {
-		// console.log(err);
 		return res.status(500).json({
 			message: 'Something went wrong',
 			serverMessage: err.message,
