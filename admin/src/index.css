@@ -43,16 +43,17 @@ input {
 }
 
 input:focus {
-	border-color: #5b08a7;
+	border-color: #343a40;
 }
 
 .btn,
 .btn-add,
 .btn-edit,
-.btn-delete {
+.btn-delete,
+.btn-generate {
 	font-family: 'Roboto', sans-serif;
 	outline: 0;
-	background: #5b08a7;
+	background: #343a40;
 	border: 0;
 	text-decoration: none;
 	padding: 15px;
@@ -69,16 +70,23 @@ input:focus {
 
 .btn-add,
 .btn-edit,
-.btn-delete {
+.btn-delete,
+.btn-generate {
 	padding: 0.5rem 0.75rem;
 	font-size: 14px;
 	border-radius: 4px;
 }
 .btn-add {
-	background-color: #00a762;
+	background-color: #28a745;
 }
 .btn-delete {
-	background-color: #b72424;
+	background-color: #dc3545;
+}
+.btn-edit {
+	background-color: #ffc107;
+}
+.btn-generate {
+	background-color: #28a745;
 }
 
 .btn-logout {
@@ -95,14 +103,14 @@ input:focus {
 .btn:hover,
 .btn:active,
 .btn:focus {
-	background: #5b08a7;
+	background: #343a40;
 }
 
 .text-center {
 	text-align: center;
 }
 
-table {
+/* table {
 	width: 100%;
 	border-spacing: 0;
 	border-collapse: collapse;
@@ -118,6 +126,45 @@ table > tbody > tr > td {
 	padding: 0.5rem 0.5rem;
 	border-bottom: 1px solid #efefef;
 	white-space: nowrap;
+} */
+
+.table-user {
+	width: 100%;
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+
+.table-user > thead > tr > th {
+	text-align: left;
+	padding: 0.5rem 0.5rem;
+	background-color: #efefef;
+}
+
+.table-user > tbody > tr > td {
+	padding: 0.5rem 0.5rem;
+	border-bottom: 1px solid #efefef;
+	white-space: nowrap;
+}
+
+.table-kehadiran {
+	width: 100%;
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+
+.table-kehadiran > thead > tr > th {
+	text-align: left;
+	padding: 0.8rem 0.6rem;
+	background-color: #efefef;
+	white-space: nowrap;
+}
+
+.table-kehadiran > tbody > tr > td {
+	padding: 0.8rem 0.6rem;
+	border-bottom: 1px solid #efefef;
+	white-space: nowrap;
+	text-align: center;
+	font-weight: bold;
 }
 
 .card {
@@ -143,7 +190,7 @@ table > tbody > tr > td {
 	bottom: 1rem;
 	z-index: 100;
 	padding: 1rem 1.5rem;
-	background-color: #00a762;
+	background-color: #28a745;
 	color: white;
 	border-radius: 0.5rem;
 }
@@ -181,7 +228,7 @@ table > tbody > tr > td {
 }
 
 .login-signup-form .form .message a {
-	color: #5b08a7;
+	color: #343a40;
 	text-decoration: none;
 }
 
@@ -193,7 +240,7 @@ table > tbody > tr > td {
 
 #defaultLayout aside {
 	width: 240px;
-	background-color: #5b08a7;
+	background-color: #343a40;
 	padding: 1rem;
 }
 

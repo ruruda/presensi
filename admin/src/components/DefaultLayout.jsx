@@ -35,6 +35,7 @@ const DefaultLayout = () => {
 			<aside>
 				<Link to="/dashboard">Dashboard</Link>
 				<Link to="/users">Users</Link>
+				<Link to="/kehadiran">Kehadiran</Link>
 				<Link to="/qrcode">QR Code</Link>
 			</aside>
 			<div className="content">

@@ -48,7 +48,7 @@ const Users = () => {
 				</Link>
 			</div>
 			<div className="card animated fadeInDown">
-				<table>
+				<table className='table-user'>
 					<thead>
 						<tr>
 							<th>No Pegawai</th>

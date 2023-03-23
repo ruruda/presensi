@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 import DefaultLayout from './components/DefaultLayout';
 import GuestLayout from './components/GuestLayout';
 import Dashboard from './view/Dashboard';
+import Kehadiran from './view/Kehadiran';
 import Login from './view/Login';
 import NotFound from './view/NotFound';
 import QRPage from './view/QRPage';
@@ -27,7 +28,7 @@ const router = createBrowserRouter([
 				element: <UserForm key="userCreate" />,
 			},
 			{
-				path: '/users/:id',
+				path: '/users/:uuid',
 				element: <UserForm key="userCreate" />,
 			},
 			{
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
 			{
 				path: '/qrcode',
 				element: <QRPage />,
+			},
+			{
+				path: '/kehadiran',
+				element: <Kehadiran />,
 			},
 		],
 	},
