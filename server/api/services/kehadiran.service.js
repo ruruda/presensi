@@ -20,4 +20,13 @@ const GetKehadiranById = async (uuid) => {
 	});
 };
 
-module.exports = { GetKehadiran, GetKehadiranById };
+const ResetKehadiranValue = async () => {
+	let fieldToUpdate = {};
+	for (let i = 1; i <= 31; i++) {
+		let fieldName = `hari_${String(i).padStart(2, '0')}`;
+		fieldToUpdate[fieldName] = null;
+	}
+	return await Kehadiran.update(fieldToUpdate, { where: {} });
+};
+
+module.exports = { GetKehadiran, GetKehadiranById, ResetKehadiranValue };

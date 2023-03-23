@@ -21,6 +21,7 @@ router.get('/admin/users', auth.verifyAdmin, adminController.getAllUsers);
 router.put('/admin/user/:uuid', auth.verifyAdmin, adminController.adminUpdateUser);
 router.delete('/admin/user/:uuid', auth.verifyAdmin, adminController.deleteUser);
 router.get('/admin/kehadiran', auth.verifyAdmin, adminController.getAllKehadiran);
+router.put('/admin/kehadiran/reset', auth.verifyAdmin, kehadiranController.resetKehadiran);
 router.get('/admin/qrcode', auth.verifyAdmin, kehadiranController.generateCode);
 
 module.exports = router;

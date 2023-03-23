@@ -64,8 +64,21 @@ const getKehadiranById = async (req, res, next) => {
 	}
 };
 
+const resetKehadiran = async (req, res, next) => {
+	try {
+		await kehadiranService.ResetKehadiranValue();
+		return res.status(200).json({ message: 'Reset kehadiran success' });
+	} catch (err) {
+		return res.status(500).json({
+			message: 'Something went wrong',
+			serverMessage: err.message,
+		});
+	}
+};
+
 module.exports = {
 	updateKehadiran,
 	generateCode,
 	getKehadiranById,
+	resetKehadiran,
 };
