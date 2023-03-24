@@ -11,6 +11,7 @@ router.post('/auth/login', authController.login);
 router.post('/auth/refresh', authController.getRefresh);
 router.get('/auth/me', auth.verifyUser, authController.getMe);
 router.put('/user/kehadiran', auth.verifyUser, kehadiranController.updateKehadiran);
+router.get('/user/lasthadir/:uuid', auth.verifyUser, kehadiranController.getLastKehadiranById);
 router.get('/user/kehadiran/:uuid', auth.verifyUser, kehadiranController.getKehadiranById);
 router.get('/user/:uuid', auth.verifyUser, userController.getUser);
 router.put('/user/:uuid', auth.verifyUser, userController.updateUser);

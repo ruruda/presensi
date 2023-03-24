@@ -28,7 +28,7 @@ const updateKehadiran = async (req, res, next) => {
 		const decrypt = JSON.parse(bytes.toString(cryptojs.enc.Utf8));
 		const time = getTime();
 
-		time > '09:00:00' ? (statusHadir = 'TL') : (statusHadir = 'H');
+		time > '07:30:00' ? (statusHadir = 'TL') : (statusHadir = 'H');
 		const existingPresensi = await Kehadiran.findOne({
 			where: { userId: user.id },
 		});
@@ -64,6 +64,31 @@ const getKehadiranById = async (req, res, next) => {
 	}
 };
 
+const getLastKehadiranById = async (req, res, next) => {
+	const { uuid } = req.params;
+	const date = parseInt(getDate());
+	const datenow = `hari_${date.toString().padStart(2, '0')}`;
+	const yesterday = `hari_${(date - 1).toString().padStart(2, '0')}`;
+	const beforeYesterday = `hari_${(date - 2).toString().padStart(2, '0')}`;
+	try {
+		const data = await kehadiranService.GetLastKehadiranById(
+			uuid,
+			datenow,
+			yesterday,
+			beforeYesterday
+		);
+		return res.status(200).json({
+			message: `Get last kehadiran ${uuid}`,
+			data,
+		});
+	} catch (err) {
+		return res.status(500).json({
+			message: 'Something went wrong',
+			serverMessage: err.message,
+		});
+	}
+};
+
 const resetKehadiran = async (req, res, next) => {
 	try {
 		await kehadiranService.ResetKehadiranValue();
@@ -81,4 +106,5 @@ module.exports = {
 	generateCode,
 	getKehadiranById,
 	resetKehadiran,
+	getLastKehadiranById,
 };
