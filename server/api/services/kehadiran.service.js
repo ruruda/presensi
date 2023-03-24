@@ -10,12 +10,26 @@ const GetKehadiran = async () => {
 };
 
 const GetKehadiranById = async (uuid) => {
-	return await Kehadiran.findAll({
+	return await Kehadiran.findOne({
 		include: {
 			model: User,
 			as: 'user',
 			attributes: { exclude: ['roleId'] },
 			where: { uuid: uuid },
+		},
+	});
+};
+
+const GetLastKehadiranById = async (uuid, datenow, yesterday, beforeYesterday) => {
+	return await Kehadiran.findOne({
+		attributes: [datenow, yesterday, beforeYesterday],
+		include: {
+			model: User,
+			as: 'user',
+			attributes: { exclude: ['roleId'] },
+			where: {
+				uuid: uuid,
+			},
 		},
 	});
 };
@@ -29,4 +43,4 @@ const ResetKehadiranValue = async () => {
 	return await Kehadiran.update(fieldToUpdate, { where: {} });
 };
 
-module.exports = { GetKehadiran, GetKehadiranById, ResetKehadiranValue };
+module.exports = { GetKehadiran, GetKehadiranById, ResetKehadiranValue, GetLastKehadiranById };
