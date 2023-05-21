@@ -14,10 +14,12 @@ const adminLogin = async (req, res, next) => {
 
 		if (!user) return res.status(401).json({ message: 'Incorrect email or password' });
 		const isValidPassword = await bcrypt.compare(password, user.password);
-		if (!isValidPassword)
+		if (!isValidPassword) {
 			return res.status(401).json({ message: 'Incorrect email or password' });
-		if (user.dataValues.roleId !== 1)
+		}
+		if (user.dataValues.roleId !== 1) {
 			return res.status(403).json({ message: 'Not authorized' });
+		}
 
 		const { accessToken, refreshToken } = await token.generateTokens(user);
 		const role = await user.getRole();
@@ -90,6 +92,7 @@ const adminUpdateUser = async (req, res, next) => {
 	try {
 		const user = await userService.GetUserById(uuid);
 		if (!user) return res.status(404).json({ message: 'User not found' });
+		
 		if (password === '' || password === null) {
 			hashPassword = user.password;
 		} else {
