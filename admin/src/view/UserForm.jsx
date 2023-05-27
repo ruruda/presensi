@@ -76,9 +76,7 @@ const UserForm = () => {
 				{loading && <div className="text-center">Loading...</div>}
 				{errors && (
 					<div className="alert">
-						{Object.keys(errors).map((key) => (
-							<p key={key}>{errors[key][0]}</p>
-						))}
+						<p>{errors}</p>
 					</div>
 				)}
 				{!loading && (
