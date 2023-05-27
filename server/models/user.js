@@ -51,7 +51,9 @@ module.exports = (sequelize, DataTypes) => {
 			nopeg: {
 				type: DataTypes.STRING,
 				allowNull: false,
-				unique: true,
+				unique: {
+					msg: 'No pegawai already exists',
+				},
 				validate: {
 					notNull: {
 						msg: 'No Pegawai is required',
