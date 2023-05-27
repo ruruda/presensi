@@ -35,10 +35,16 @@ const create = async (req, res) => {
 			data,
 		});
 	} catch (err) {
-		if (err.name === 'SequelizeValidationError')
+		if (err.name === 'SequelizeValidationError') {
 			return res.status(400).json({
 				message: err.errors.map((err) => err.message),
 			});
+		}
+		if (err.name === 'SequelizeUniqueConstraintError') {
+			return res.status(400).json({
+				message: 'No pegawai already exists',
+			});
+		}
 		return res.status(500).json({
 			message: 'Something went wrong',
 			serverMessage: err.message,
